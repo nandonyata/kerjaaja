@@ -1,0 +1,12 @@
+general:
+  env:
+  port:
+db:
+  host:
+  port:
+  user:
+  password:
+  schema:
+  migrate_schema:
+  max_ideal_connections:
+  debug:
