@@ -4,15 +4,20 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nandonyata/kerjaaja/config"
+	"github.com/nandonyata/kerjaaja/common"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
-	// logger := logrus.New()
+	logger := logrus.New()
 
-	config.Load(".")
-	if config.Get().General.Env == "prod" {
+	common.Load(".")
+	if common.Get().General.Env == "prod" {
 		gin.SetMode(gin.ReleaseMode)
+	}
+
+	if err := common.ConnectDB(logrus.New()); err != nil {
+		logger.Fatalf("error connecting database. error: %v", err)
 	}
 
 	r := gin.Default()
@@ -23,7 +28,7 @@ func main() {
 		})
 	})
 
-	port := config.Get().General.Port
+	port := common.Get().General.Port
 	if err := r.Run(port); err != nil {
 		log.Fatalf("error listening on port: %v, error: %v", port, err)
 	}
