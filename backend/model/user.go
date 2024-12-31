@@ -6,7 +6,9 @@ type User struct {
 	LastName  string `gorm:"type:varchar(50)" json:"last_name"`
 	Email     string `gorm:"type:varchar(100);not null;unique" json:"email"`
 	Password  string `gorm:"type:text;not null" json:"-"`
-	RoleID    string `gorm:"type:int;not null"  json:"-"`
 
-	Role *Role `gorm:"foreignKey:RoleID"`
+	RoleID string `gorm:"type:uuid;not null"  json:"-"`
+
+	Role         *Role          `gorm:"foreignKey:RoleID"`
+	UserActivity []UserActivity `gorm:"foreignKey:UserID"`
 }
